@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ivory Apartment - Find Your Perfect Home</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo" onclick="goHome()" style="cursor: pointer;">🏢 Ivory Apartment</div>
+            
+            <!-- Hamburger Menu for Mobile -->
+            <button class="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <!-- Navigation Menu -->
+            <ul class="nav-links" id="navMenu">
+                <li><a href="#home" onclick="closeMenu()">🏠 Home</a></li>
+                <li class="nav-separator"></li>
+                <li><a href="#houses" onclick="closeMenu()">🏠 Houses</a></li>
+                <li><a href="rooms.html" onclick="closeMenu()">🛏️ Rooms</a></li>
+                <li><a href="#vacancies" onclick="closeMenu()">💼 Vacancies</a></li>
+                <li class="nav-separator"></li>
+                <li><a href="#contact" onclick="closeMenu()">📞 Contact</a></li>
+                <li class="nav-separator"></li>
+                <li id="userMenuNav">
+                    <span id="userDisplay" style="color: white; cursor: pointer;">
+                        <a href="javascript:showLoginModal()" id="loginLink">🔐 Login</a>
+                    </span>
+                </li>
+                <li class="nav-separator"></li>
+                <li><a href="tenant-login.html" class="nav-tenant-btn">👤 Tenant Login</a></li>
+                <li><a href="admin.html" class="nav-admin-btn">💼 Admin</a></li>
+                <li><a href="home.html" class="nav-home-btn">← Back</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLoginModal()">&times;</span>
+            <div class="modal-header">
+                <h2>Welcome to Ivory Apartment</h2>
+                <p>Login to view your saved listings and inquiries</p>
+            </div>
+            
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="switchTab('login')">Login</button>
+                <button class="tab-btn" onclick="switchTab('signup')">Sign Up</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="tab-content active">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                </div>
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe">Remember me</label>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+                <p class="form-link">Don't have an account? <a href="javascript:switchTab('signup')">Sign up here</a></p>
+            </form>
+
+            <!-- Signup Form -->
+            <form id="signupForm" class="tab-content">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email Address</label>
+                    <input type="email" id="signupEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPhone">Phone Number</label>
+                    <input type="tel" id="signupPhone" placeholder="Enter your phone number" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" placeholder="Create a password" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupConfirmPassword">Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" placeholder="Confirm your password" required>
+                </div>
+                <button type="submit" class="btn-primary">Create Account</button>
+                <p class="form-link">Already have an account? <a href="javascript:switchTab('login')">Login here</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- User Dashboard Modal -->
+    <div id="userDashboardModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeUserDashboard()">&times;</span>
+            <div class="dashboard-header">
+                <h2>Welcome, <span id="dashboardUserName"></span>!</h2>
+                <button class="btn-logout" onclick="logout()">Logout</button>
+            </div>
+            
+            <div class="dashboard-tabs">
+                <button class="dashboard-tab-btn active" onclick="switchDashboardTab('profile')">Profile</button>
+                <button class="dashboard-tab-btn" onclick="switchDashboardTab('saved')">Saved Listings</button>
+                <button class="dashboard-tab-btn" onclick="switchDashboardTab('inquiries')">My Inquiries</button>
+                <button class="dashboard-tab-btn" onclick="switchDashboardTab('payroll')">💰 Payroll</button>
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                <button class="btn-primary" onclick="openPaymentModal()">💳 Make Payment</button>
+                <button class="btn-secondary" onclick="viewPaymentHistory()">📊 Payment History</button>
+            </div>
+
+            <!-- Profile Tab -->
+            <div id="profileTab" class="dashboard-tab-content active">
+                <div class="profile-info">
+                    <h3>User Information</h3>
+                    <div class="info-group">
+                        <label>Name:</label>
+                        <p id="profileName"></p>
+                    </div>
+                    <div class="info-group">
+                        <label>Email:</label>
+                        <p id="profileEmail"></p>
+                    </div>
+                    <div class="info-group">
+                        <label>Phone:</label>
+                        <p id="profilePhone"></p>
+                    </div>
+                    <button class="btn-primary" onclick="editProfile()">Edit Profile</button>
+                </div>
+            </div>
+
+            <!-- Saved Listings Tab -->
+            <div id="savedTab" class="dashboard-tab-content">
+                <h3>Your Saved Listings</h3>
+                <div id="savedListings" class="saved-listings">
+                    <p>No saved listings yet. Start saving your favorite properties!</p>
+                </div>
+            </div>
+
+            <!-- Inquiries Tab -->
+            <div id="inquiriesTab" class="dashboard-tab-content">
+                <h3>Your Inquiries</h3>
+                <div id="inquiriesList" class="inquiries-list">
+                    <p>No inquiries yet.</p>
+                </div>
+            </div>
+
+            <!-- Payroll Tab -->
+            <div id="payrollTab" class="dashboard-tab-content">
+                <h3>💰 Your Payroll Information</h3>
+                <div class="payroll-content">
+                    <div class="payroll-summary">
+                        <div class="payroll-card">
+                            <label>Monthly Salary</label>
+                            <p class="payroll-amount" id="monthlySalary">₦0</p>
+                        </div>
+                        <div class="payroll-card">
+                            <label>Year-to-Date Earnings</label>
+                            <p class="payroll-amount" id="ytdEarnings">₦0</p>
+                        </div>
+                        <div class="payroll-card">
+                            <label>Total Deductions</label>
+                            <p class="payroll-amount" id="totalDeductions">₦0</p>
+                        </div>
+                        <div class="payroll-card">
+                            <label>Net Pay</label>
+                            <p class="payroll-amount" id="netPay">₦0</p>
+                        </div>
+                    </div>
+
+                    <div class="payroll-history">
+                        <h4>Payment History</h4>
+                        <div id="paymentHistoryList" class="payment-list">
+                            <p>No payment records found.</p>
+                        </div>
+                    </div>
+
+                    <div class="payroll-details">
+                        <h4>Current Payroll Details</h4>
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <label>Position:</label>
+                                <p id="currentPosition">Not specified</p>
+                            </div>
+                            <div class="detail-item">
+                                <label>Employment Status:</label>
+                                <p id="employmentStatus">Active</p>
+                            </div>
+                            <div class="detail-item">
+                                <label>Last Payment Date:</label>
+                                <p id="lastPaymentDate">N/A</p>
+                            </div>
+                            <div class="detail-item">
+                                <label>Next Payment Date:</label>
+                                <p id="nextPaymentDate">N/A</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn-secondary" onclick="downloadPayslip()">📥 Download Payslip</button>
+                    <button class="btn-secondary" onclick="viewPayrollDetails()">📊 View Details</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Welcome to Ivory Apartment</h1>
+            <p>Your trusted partner in finding the perfect home</p>
+            <div class="search-bar">
+                <input type="text" placeholder="Search by location..." id="searchInput">
+                <button onclick="filterListings()">Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Overview -->
+    <section class="vacancies-overview">
+        <div class="container">
+            <h2>Current Availability</h2>
+            <div class="vacancy-stats">
+                <div class="stat-card">
+                    <h3 id="houseCount">12</h3>
+                    <p>Houses Available</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="roomCount">28</h3>
+                    <p>Rooms Available</p>
+                </div>
+                <div class="stat-card">
+                    <h3>₦5M - ₦50M</h3>
+                    <p>Price Range</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Houses Section -->
+    <section id="houses" class="listings-section">
+        <div class="container">
+            <h2>Available Houses</h2>
+            <div class="filters">
+                <select id="priceFilter" onchange="filterListings()">
+                    <option value="">All Prices</option>
+                    <option value="budget">Budget (₦5M - ₦15M)</option>
+                    <option value="mid">Mid-Range (₦15M - ₦30M)</option>
+                    <option value="premium">Premium (₦30M+)</option>
+                </select>
+                <select id="bedroomFilter" onchange="filterListings()">
+                    <option value="">All Bedrooms</option>
+                    <option value="2">2 Bedrooms</option>
+                    <option value="3">3 Bedrooms</option>
+                    <option value="4">4+ Bedrooms</option>
+                </select>
+            </div>
+            <div id="housesList" class="listings-grid">
+                <!-- Houses will be populated here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Rooms Section -->
+    <section id="rooms" class="listings-section">
+        <div class="container">
+            <h2>Available Rooms</h2>
+            <div class="filters">
+                <select id="roomTypeFilter" onchange="filterListings()">
+                    <option value="">All Types</option>
+                    <option value="single">Single Room</option>
+                    <option value="self-contained">Self-Contained</option>
+                    <option value="shared">Shared Apartment</option>
+                </select>
+                <select id="roomPriceFilter" onchange="filterListings()">
+                    <option value="">All Prices</option>
+                    <option value="budget">Budget (₦500K - ₦1M)</option>
+                    <option value="mid">Standard (₦1M - ₦2M)</option>
+                    <option value="premium">Premium (₦2M+)</option>
+                </select>
+            </div>
+            <div id="roomsList" class="listings-grid">
+                <!-- Rooms will be populated here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Job Vacancies Section -->
+    <section id="vacancies" class="listings-section">
+        <div class="container">
+            <h2>🏢 Job Vacancies & Careers</h2>
+            <p style="text-align: center; color: #7f8c8d; margin-bottom: 2rem;">Join our growing team at Ivory Apartment</p>
+            <div id="vacanciesList" class="listings-grid">
+                <!-- Vacancies will be populated here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2>Get in Touch</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="info-item">
+                        <h3>📍 Address</h3>
+                        <p>Lekki, Lagos, Nigeria</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>📞 Phone</h3>
+                        <p>+234 (0) 123 456 7890</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>✉️ Email</h3>
+                        <p>info@ivoryapartment.com</p>
+                    </div>
+                </div>
+                <form class="contact-form">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <textarea placeholder="Your Message" rows="5" required></textarea>
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Ivory Apartment. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#">Facebook</a>
+                <a href="#">Instagram</a>
+                <a href="#">Twitter</a>
+                <a href="admin.html" style="margin-left: 2rem; font-size: 0.8rem; opacity: 0.7;">Admin</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

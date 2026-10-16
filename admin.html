@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Ivory Apartment Management</title>
+    <link rel="stylesheet" href="admin-styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo" onclick="window.location.href='home.html'" style="cursor: pointer;">🏢 Ivory Apartment Admin</div>
+            <div class="nav-right">
+                <span id="adminUserDisplay" class="user-info">Admin User</span>
+                <button onclick="logoutAdmin()" class="btn-logout-nav">Logout</button>
+                <a href="index.html" style="color: white; text-decoration: none; margin-left: 1rem; font-size: 0.9rem; opacity: 0.8;">← Back to Portal</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="container-main">
+        <aside class="sidebar">
+            <div class="sidebar-menu">
+                <div class="menu-item active" onclick="switchPage('dashboard', event)">
+                    📊 Dashboard
+                </div>
+                <div class="menu-item" onclick="switchPage('payroll', event)">
+                    💰 Payroll Management
+                </div>
+                <div class="menu-item" onclick="switchPage('rooms', event)">
+                    🛏️ Room Advertisements
+                </div>
+                <div class="menu-item" onclick="switchPage('vacancy', event)">
+                    🏠 Vacancy Management
+                </div>
+                <div class="menu-item" onclick="window.location.href='admins.html'">
+                    🔐 Admin Management
+                </div>
+                <div class="menu-item" onclick="switchPage('settings', event)">
+                    ⚙️ Settings
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Page -->
+            <div id="dashboardPage" class="page active">
+                <h1>Management Dashboard</h1>
+                
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">💼</div>
+                        <div class="stat-content">
+                            <h3>Active Staff</h3>
+                            <p class="stat-number" id="activeStaffCount">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💵</div>
+                        <div class="stat-content">
+                            <h3>Monthly Payroll</h3>
+                            <p class="stat-number" id="totalPayroll">₦0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🛏️</div>
+                        <div class="stat-content">
+                            <h3>Room Ads Active</h3>
+                            <p class="stat-number" id="activeAdsCount">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-content">
+                            <h3>Vacancy Rate</h3>
+                            <p class="stat-number" id="vacancyRate">0%</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-row">
+                    <div class="dashboard-section">
+                        <h2>Recent Payroll Entries</h2>
+                        <div id="recentPayrollList" class="recent-list">
+                            <p class="empty-message">No payroll entries yet</p>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-section">
+                        <h2>Recent Room Ads</h2>
+                        <div id="recentAdsList" class="recent-list">
+                            <p class="empty-message">No room ads yet</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-row">
+                    <div class="dashboard-section full-width">
+                        <h2>Occupancy Overview</h2>
+                        <div id="occupancyChart" class="chart-container">
+                            <div class="chart-placeholder">Loading occupancy data...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payroll Management Page -->
+            <div id="payrollPage" class="page">
+                <h1>Payroll Management</h1>
+                
+                <div class="section-header">
+                    <button class="btn-primary" onclick="openPayrollForm()">➕ Add New Staff</button>
+                    <button class="btn-secondary" onclick="generatePayrollReport()">📋 Generate Report</button>
+                </div>
+
+                <div class="content-grid">
+                    <div class="section">
+                        <h2>Add Staff Member</h2>
+                        <form id="payrollForm" class="form">
+                            <div class="form-group">
+                                <label for="staffName">Staff Name</label>
+                                <input type="text" id="staffName" placeholder="Enter staff name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="staffPosition">Position</label>
+                                <select id="staffPosition" required>
+                                    <option value="">Select Position</option>
+                                    <option value="Manager">Manager</option>
+                                    <option value="Receptionist">Receptionist</option>
+                                    <option value="Cleaner">Cleaner</option>
+                                    <option value="Security">Security</option>
+                                    <option value="Maintenance">Maintenance</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="staffSalary">Monthly Salary (₦)</label>
+                                <input type="number" id="staffSalary" placeholder="Enter salary amount" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="staffStatus">Employment Status</label>
+                                <select id="staffStatus" required>
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                    <option value="on-leave">On Leave</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn-primary">Add Staff Member</button>
+                        </form>
+                    </div>
+
+                    <div class="section">
+                        <h2>Staff Payroll</h2>
+                        <div id="payrollList" class="data-table">
+                            <p class="empty-message">No staff members added yet</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Room Advertisements Page -->
+            <div id="roomsPage" class="page">
+                <h1>Room Advertisements Management</h1>
+                
+                <div class="section-header">
+                    <button class="btn-primary" onclick="openRoomAdForm()">➕ Post New Room Ad</button>
+                    <button class="btn-secondary" onclick="downloadAdsList()">📥 Download List</button>
+                </div>
+
+                <div class="content-grid">
+                    <div class="section">
+                        <h2>Post Room Advertisement</h2>
+                        <form id="roomAdForm" class="form">
+                            <div class="form-group">
+                                <label for="roomTitle">Room Title</label>
+                                <input type="text" id="roomTitle" placeholder="e.g., 2-Bedroom Apartment" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="roomLocation">Location</label>
+                                <input type="text" id="roomLocation" placeholder="Enter location" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="roomPrice">Monthly Rent (₦)</label>
+                                <input type="number" id="roomPrice" placeholder="Enter price" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="roomType">Room Type</label>
+                                <select id="roomType" required>
+                                    <option value="">Select Type</option>
+                                    <option value="single">Single Room</option>
+                                    <option value="self-contained">Self-Contained</option>
+                                    <option value="shared">Shared Apartment</option>
+                                    <option value="house">House</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="roomDescription">Description</label>
+                                <textarea id="roomDescription" placeholder="Enter room description" rows="4"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="roomStatus">Status</label>
+                                <select id="roomStatus" required>
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                    <option value="sold">Sold/Rented</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn-primary">Post Advertisement</button>
+                        </form>
+                    </div>
+
+                    <div class="section">
+                        <h2>Active Room Advertisements</h2>
+                        <div id="roomAdsList" class="ads-list">
+                            <p class="empty-message">No room advertisements yet</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vacancy Management Page -->
+            <div id="vacancyPage" class="page">
+                <h1>Vacancy Management</h1>
+                
+                <div class="section-header">
+                    <button class="btn-primary" onclick="openVacancyForm()">➕ Add Vacancy</button>
+                </div>
+
+                <div class="content-grid">
+                    <div class="section">
+                        <h2>Create New Vacancy</h2>
+                        <form id="vacancyForm" class="form">
+                            <div class="form-group">
+                                <label for="vacancyTitle">Vacancy Title</label>
+                                <input type="text" id="vacancyTitle" placeholder="e.g., Maintenance Officer" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="vacancyDepartment">Department</label>
+                                <select id="vacancyDepartment" required>
+                                    <option value="">Select Department</option>
+                                    <option value="Management">Management</option>
+                                    <option value="Operations">Operations</option>
+                                    <option value="Maintenance">Maintenance</option>
+                                    <option value="Security">Security</option>
+                                    <option value="Cleaning">Cleaning</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="vacancySalary">Expected Salary (₦)</label>
+                                <input type="number" id="vacancySalary" placeholder="Enter salary range" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="vacancyRequirements">Requirements</label>
+                                <textarea id="vacancyRequirements" placeholder="Enter job requirements" rows="4"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="vacancyStatus">Status</label>
+                                <select id="vacancyStatus" required>
+                                    <option value="open">Open</option>
+                                    <option value="filled">Filled</option>
+                                    <option value="closed">Closed</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn-primary">Post Vacancy</button>
+                        </form>
+                    </div>
+
+                    <div class="section">
+                        <h2>Current Vacancies</h2>
+                        <div id="vacanciesList" class="vacancies-list">
+                            <p class="empty-message">No vacancies posted yet</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section full-width">
+                    <h2>Vacancy Statistics</h2>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <h3>Open Positions</h3>
+                            <p id="openPositions" class="stat-value">0</p>
+                        </div>
+                        <div class="stat-box">
+                            <h3>Total Applicants</h3>
+                            <p id="totalApplicants" class="stat-value">0</p>
+                        </div>
+                        <div class="stat-box">
+                            <h3>Filled Positions</h3>
+                            <p id="filledPositions" class="stat-value">0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div id="settingsPage" class="page">
+                <h1>Settings</h1>
+
+                <div class="content-grid">
+                    <div class="section">
+                        <h2>Company Information</h2>
+                        <form id="companySettingsForm" class="form">
+                            <div class="form-group">
+                                <label for="companyName">Company Name</label>
+                                <input type="text" id="companyName" placeholder="Ivory Apartment" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="companyAddress">Address</label>
+                                <input type="text" id="companyAddress" placeholder="Enter company address" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="companyPhone">Phone</label>
+                                <input type="tel" id="companyPhone" placeholder="Enter phone number" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="companyEmail">Email</label>
+                                <input type="email" id="companyEmail" placeholder="Enter email address" required>
+                            </div>
+                            <button type="submit" class="btn-primary">Save Company Settings</button>
+                        </form>
+                    </div>
+
+                    <div class="section">
+                        <h2>Account Settings</h2>
+                        <form id="accountSettingsForm" class="form">
+                            <div class="form-group">
+                                <label for="adminPassword">Current Password</label>
+                                <input type="password" id="adminPassword" placeholder="Enter current password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword">New Password</label>
+                                <input type="password" id="newPassword" placeholder="Enter new password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm Password</label>
+                                <input type="password" id="confirmPassword" placeholder="Confirm new password" required>
+                            </div>
+                            <button type="submit" class="btn-primary">Change Password</button>
+                        </form>
+                    </div>
+
+                    <div class="section">
+                        <h2>System Settings</h2>
+                        <div class="settings-option">
+                            <div class="option-header">
+                                <h3>Notifications</h3>
+                                <label class="toggle">
+                                    <input type="checkbox" id="notificationsToggle" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <p>Receive email notifications for new inquiries</p>
+                        </div>
+
+                        <div class="settings-option">
+                            <div class="option-header">
+                                <h3>Auto-Backup</h3>
+                                <label class="toggle">
+                                    <input type="checkbox" id="autoBackupToggle" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <p>Automatically backup data daily</p>
+                        </div>
+
+                        <div class="settings-option">
+                            <div class="option-header">
+                                <h3>Dark Mode</h3>
+                                <label class="toggle">
+                                    <input type="checkbox" id="darkModeToggle">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <p>Enable dark mode for the dashboard</p>
+                        </div>
+
+                        <button class="btn-secondary" onclick="backupData()">💾 Backup Data Now</button>
+                        <button class="btn-danger" onclick="resetDashboard()">🔄 Reset Dashboard</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="admin-script.js"></script>
+</body>
+</html>
+
+
+<!-- Add payment script at the end before closing body tag -->
+<script src="payment-module.js"></script>
+
+<!-- Add payment button to dashboard -->
+<style>
+    .admin-payment-btn {
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: all 0.3s;
+        margin-right: 1rem;
+    }
+
+    .admin-payment-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+    }
+</style>
+
+<script>
+    // Add payment button to dashboard header
+    document.addEventListener('DOMContentLoaded', function() {
+        const sectionHeader = document.querySelector('.section-header');
+        if (sectionHeader) {
+            const paymentBtn = document.createElement('button');
+            paymentBtn.className = 'admin-payment-btn';
+            paymentBtn.innerHTML = '💳 Make Payment';
+            paymentBtn.onclick = function() {
+                openPaymentModal();
+            };
+            sectionHeader.insertBefore(paymentBtn, sectionHeader.firstChild);
+        }
+    });
+</script>

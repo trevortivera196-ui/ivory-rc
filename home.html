@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ivory Apartment - Home</title>
+    <link rel="stylesheet" href="home-styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">🏢 Ivory Apartment</div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="admin.html" class="nav-admin-btn">💼 Admin Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to Ivory Apartment</h1>
+            <p>Your Complete Property Management Solution</p>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="window.location.href='tenant-login.html'">🏠 Tenant Login</button>
+                <button class="btn btn-secondary" onclick="window.location.href='admin.html'">💼 Admin Login</button>
+                <button class="btn btn-secondary" onclick="window.location.href='admins.html'" style="background-color: #e74c3c;">🔐 Admin Management</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Our Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>Secure Login</h3>
+                    <p>Safe and secure authentication for tenants and administrators</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛏️</div>
+                    <h3>Room Listings</h3>
+                    <p>Browse available apartments, rooms, and houses</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💼</div>
+                    <h3>Management Tools</h3>
+                    <p>Complete admin dashboard for property management</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Analytics</h3>
+                    <p>Track occupancy, payroll, and vacancies in real-time</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Payroll Management</h3>
+                    <p>Manage staff salaries and payroll efficiently</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobile Friendly</h3>
+                    <p>Access your account from any device, anytime</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2>About Ivory Apartment</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Simplifying Property Management</h3>
+                    <p>Ivory Apartment is a comprehensive property management platform designed to streamline operations for both tenants and administrators.</p>
+                    <p>We provide tools to manage listings, track vacancies, handle payroll, and maintain seamless communication between property managers and residents.</p>
+                    <ul class="about-list">
+                        <li>✓ Easy-to-use interface</li>
+                        <li>✓ Real-time data updates</li>
+                        <li>✓ Secure cloud storage</li>
+                        <li>✓ 24/7 Support</li>
+                    </ul>
+                </div>
+                <div class="about-stats">
+                    <div class="stat">
+                        <h3>500+</h3>
+                        <p>Properties Listed</p>
+                    </div>
+                    <div class="stat">
+                        <h3>2000+</h3>
+                        <p>Happy Users</p>
+                    </div>
+                    <div class="stat">
+                        <h3>99%</h3>
+                        <p>Uptime</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Get In Touch</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="info-item">
+                        <h3>📍 Location</h3>
+                        <p>Lekki, Lagos, Nigeria</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>📞 Phone</h3>
+                        <p>+234 (0) 123 456 7890</p>
+                    </div>
+                    <div class="info-item">
+                        <h3>✉️ Email</h3>
+                        <p>info@ivoryapartment.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLoginModal()">&times;</span>
+            
+            <!-- Tenant Login -->
+            <div id="tenantLoginForm" class="login-form">
+                <div class="form-header">
+                    <h2>🏠 Tenant Login</h2>
+                    <p>Access your apartment portal</p>
+                </div>
+                <form onsubmit="handleTenantLogin(event)">
+                    <div class="form-group">
+                        <label for="tenantEmail">Email Address</label>
+                        <input type="email" id="tenantEmail" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tenantPassword">Password</label>
+                        <input type="password" id="tenantPassword" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <p class="form-link">Don't have an account? <a href="javascript:switchLoginForm('signup')">Sign up here</a></p>
+                </form>
+            </div>
+
+            <!-- Tenant Signup -->
+            <div id="tenantSignupForm" class="login-form" style="display: none;">
+                <div class="form-header">
+                    <h2>🏠 Create Tenant Account</h2>
+                    <p>Join Ivory Apartment</p>
+                </div>
+                <form onsubmit="handleTenantSignup(event)">
+                    <div class="form-group">
+                        <label for="signupName">Full Name</label>
+                        <input type="text" id="signupName" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupEmail">Email Address</label>
+                        <input type="email" id="signupEmail" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPhone">Phone Number</label>
+                        <input type="tel" id="signupPhone" placeholder="Enter your phone number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <input type="password" id="signupPassword" placeholder="Create a password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Account</button>
+                    <p class="form-link">Already have an account? <a href="javascript:switchLoginForm('login')">Login here</a></p>
+                </form>
+            </div>
+
+            <!-- Admin Login -->
+            <div id="adminLoginForm" class="login-form" style="display: none;">
+                <div class="form-header">
+                    <h2>💼 Admin Portal</h2>
+                    <p>Management Dashboard</p>
+                </div>
+                <div class="demo-note">
+                    <p><strong>Demo Credentials:</strong></p>
+                    <p>Email: admin@ivoryapartment.com</p>
+                    <p>Password: admin123</p>
+                </div>
+                <form onsubmit="handleAdminLogin(event)">
+                    <div class="form-group">
+                        <label for="adminEmail">Admin Email</label>
+                        <input type="email" id="adminEmail" placeholder="admin@ivoryapartment.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminPassword">Password</label>
+                        <input type="password" id="adminPassword" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login to Admin</button>
+                </form>
+            </div>
+
+            <div class="login-switcher">
+                <p>Need different access?</p>
+                <button class="switch-btn" onclick="showLoginModal('tenant')">🏠 Tenant</button>
+                <button class="switch-btn" onclick="showLoginModal('admin')">💼 Admin</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Ivory Apartment. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#">Facebook</a>
+                <a href="#">Instagram</a>
+                <a href="#">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="home-script.js"></script>
+</body>
+</html>
+
+
+<!-- Payment Module for Home Page -->
+<script src="payment-module.js"></script>
+
+<style>
+    .home-payment-section {
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        text-align: center;
+        margin: 2rem 0;
+    }
+
+    .home-payment-section h3 {
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+    }
+
+    .home-payment-btn {
+        background: white;
+        color: #3498db;
+        padding: 0.75rem 2rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s;
+    }
+
+    .home-payment-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+</style>
+
+<script>
+    // Add payment section to home page hero
+    document.addEventListener('DOMContentLoaded', function() {
+        const hero = document.querySelector('.hero');
+        if (hero) {
+            const paymentSection = document.createElement('div');
+            paymentSection.className = 'home-payment-section';
+            paymentSection.innerHTML = `
+                <h3>💳 Quick Payment</h3>
+                <p style="margin-bottom: 1rem; opacity: 0.9;">Pay rent, utilities, or deposits securely</p>
+                <button class="home-payment-btn" onclick="openPaymentModal()">Make a Payment</button>
+            `;
+            hero.appendChild(paymentSection);
+        }
+    });
+</script>
